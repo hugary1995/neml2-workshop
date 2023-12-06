@@ -1,0 +1,4 @@
+[submodule "neml2"]
+	path = neml2
+	url = git@github.com:reverendbedford/neml2.git
+	branch = pybind
