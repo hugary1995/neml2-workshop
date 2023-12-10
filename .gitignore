@@ -35,5 +35,6 @@ conftest.py
 ex*-*
 *.png
 *.svg
+*.dot
 package-lock.json
 !**/assets/*
