@@ -113,9 +113,9 @@
 				<h2 class="r-fit-text">NEML2 WORKSHOP</h2>
 				<p style="text-align: center;">Dec 12, 2023</p>
 				<p style="text-align: center;">
-					<a href="https://github.com/reverendbedford/neml2">NEML2 GitHub repository</a><br>
 					Presentation <a href="https://hugary1995.github.io/neml2-workshop/">HTML</a> <a
 						href="https://hugary1995.github.io/neml2-workshop/?print-pdf">PDF</a><br>
+					<a href="https://github.com/reverendbedford/neml2">NEML2 GitHub repository</a><br>
 					<a href="https://github.com/hugary1995/neml2-workshop">Workshop examples</a>
 				</p>
 				<p style="text-align: center;">
@@ -209,7 +209,8 @@ make -j N
 						</div>
 						<div class="item fragment">
 							<img src="assets/folder.png" style="height: 80px;" class="icon">
-							<p class="text">The folder hierarchy of the repository serves as a good summary of NEML2 capabilities.
+							<p class="text">The folder hierarchy of the repository serves as a high-level summary of NEML2
+								capabilities.
 							</p>
 						</div>
 					</div>
@@ -243,7 +244,7 @@ make -j N
 						</div>
 						<div class="col fragment">
 							<h4>Framework-level features</h4>
-							<h4 style="text-align: left;">☑ Completed</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">☑ Completed</h4>
 							<ul>
 								<li>Primitive tensor types with built-in vectorization</li>
 								<li>Efficient tensor viewing and labeling</li>
@@ -252,7 +253,7 @@ make -j N
 								<li>General-purpose models</li>
 								<li>Integration into BlackBear</li>
 							</ul>
-							<h4 style="text-align: left;">▣ In progress</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">▣ In progress</h4>
 							<ul>
 								<li>Python bindings</li>
 								<li>Option metadata documentation</li>
@@ -268,7 +269,7 @@ make -j N
 						</div>
 						<div class="col">
 							<h4>Physics modules</h4>
-							<h4 style="text-align: left;">☑ Completed</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">☑ Completed</h4>
 							<ul>
 								<li>Solid mechanics: Elasticity</li>
 								<li>Solid mechanics: Creep</li>
@@ -277,8 +278,9 @@ make -j N
 								<li><u>Solid mechanics: Crystalplasticity</u></li>
 								<li><u>Multiphysics: Nonlinear model parameters</u></li>
 							</ul>
-							<h4 style="text-align: left;">▣ In progress</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">▣ In progress</h4>
 							<ul>
+								<li>Solid mechanics: Creep-plasticity model</li>
 								<li>Solid mechanics: Objective integration</li>
 								<li>Multiphysics: Thermomechanical coupling</li>
 							</ul>
@@ -307,9 +309,7 @@ make -j N
 						code for each example. We will complete the examples in an interactive fashion.</p>
 					<p class="fragment"><span style="color: coral;">Please stop me ASAP if you have any question.</span></p>
 					<p class="fragment">Final words: The playground is for playing... You don't have to exactly follow what I
-						wrote
-						on the screen.<br>
-						In fact, you are encouraged to modify the examples to verify your understanding.</p>
+						write on the screen -- you are encouraged to modify the examples to verify your understanding.</p>
 					<h3 class="fragment">Happy coding!</h3>
 				</section>
 				<section>
@@ -360,7 +360,7 @@ make -j N
 									</tr>
 									<tr>
 										<td>18</td>
-										<td><a href="#/24">Solid mechanics module overview</a></td>
+										<td><a href="#/24">Setting up a solid mechanics model</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -716,7 +716,7 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section data-auto-animate>
+				<section data-auto-animate data-auto-animate-unmatched="false">
 					<h3>Example 8: Labeled Tensors</h3>
 					<div class="container" style="grid-template-columns: 65% 35%;">
 						<div class="col">
@@ -752,7 +752,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate>
+				<section data-auto-animate data-auto-animate-unmatched="false">
 					<h3>Example 8: Labeled Tensors</h3>
 					<div class="container" style="grid-template-columns: 65% 35%;">
 						<div class="col">
@@ -983,8 +983,8 @@ make -j N
 						</p>
 						<p class="fragment">All manufacturable objects can be <span style="color: coral">deserialized</span> from an
 							input file. NEML2 input files
-							have
-							<span style="color: coral">suffix <code>.i</code></span> and use the <span style="color: coral">HIT</span>
+							have extension
+							<span style="color: coral"><code>.i</code></span> and use the <span style="color: coral">HIT</span>
 							hierarchical text language.
 						</p>
 						<p class="fragment">To create a <span style="color: coral">custom</span> manufacturiable object, simply
@@ -1119,8 +1119,8 @@ make -j N
 						<p>We need 3 more equations to close the system:</p>
 						\[
 						\begin{aligned}
-						r_x(x, v, x_n, t, t_n) &amp; = x - x_n - v (t - t_n) \\
-						r_v(v, v_n, t, t_n) &amp; = v - v_n - a (t - t_n) \\
+						r_x(x, v, x_n, t, t_n) &amp; = x - x_n - v \cdot (t - t_n) \\
+						r_v(v, v_n, t, t_n) &amp; = v - v_n - a \cdot (t - t_n) \\
 						\{x, v\} &amp; = \text{root}\left([r_x, r_v]^T\right)
 						\end{aligned}
 						\]
@@ -1176,12 +1176,10 @@ make -j N
 				<div class="container" style="grid-template-columns: 65% 35%;">
 					<div class="col">
 						<p>Well, we certainly don't want to write and compile some code every time we throw the ball <span
-								style="color: coral">with a different
-								velocity</span>.</p>
+								style="color: coral">with a different velocity</span>.</p>
 						<p>That's the exact job of a <span style="color: coral"><code>Driver</code></span>.<br>
 							Here, we will implement our own <span style="color: coral"><code>BallLauncher</code></span> by deriving
-							from
-							the <span style="color: coral"><code>TransientDriver</code></span>.
+							from the <span style="color: coral"><code>TransientDriver</code></span>.
 						</p>
 						<p class="fragment" data-fragment-index="1">The results can optionally be saved using zip-based pickling
 							into a PyTorch archive.
@@ -1232,17 +1230,18 @@ make -j N
 						</p>
 					</div>
 					<div class="col">
-						<p>That's not the ideal choice because</p>
+						<p class="fragment">That's not the ideal choice because</p>
 						<ul>
-							<li>The code has to be <span style="color: coral">recompiled</span> every time the resistivity changes.
+							<li class="fragment">The code has to be <span style="color: coral">recompiled</span> every time the
+								resistivity changes.
 							</li>
-							<li>If the input and output can be <span style="color: coral">batched</span>, there is no reason why $\mu$
-								cannot be.</li>
-							<li>If the model is sent to a <span style="color: coral">different device</span>, the parameters should be
-								sent to same device as well.</li>
-							<li>In many applications, the <span style="color: coral">derivatives of the model response w.r.t. the
-									parameters</span> (or the action of
-								the Jacobian on the parameters) are required.</li>
+							<li class="fragment">If the input and output can be <span style="color: coral">batched</span>, there is no
+								reason why $\mu$ cannot be.</li>
+							<li class="fragment">If the model is sent to a <span style="color: coral">different device</span>, the
+								parameters should be sent to same device as well.</li>
+							<li class="fragment">In many applications, the <span style="color: coral">derivatives of the model
+									response w.r.t. the parameters</span> (or the action of the Jacobian on the parameters) are required.
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -1254,7 +1253,209 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<h3>Example 18: Solid Mechanics Module Overview</h3>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 33% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								$\{\sigma, \bar{\varepsilon}^p, K^p \} = \text{root}\left( r_\sigma, r_{\bar{\varepsilon}^p}, r_{K^p}
+								\right)$<br>
+								$r_\sigma = \sigma - \sigma_n - \dot{\sigma} \cdot (t - t_n)$<br>
+								$r_{\bar{\varepsilon}^p} = \bar{\varepsilon}^p - \bar{\varepsilon}^p_n - \dot{\bar{\varepsilon}^p}
+								\cdot (t - t_n)$<br>
+								$r_{K^p} = K^p - K^p_n - \dot{K^p} \cdot (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								$\dot{\sigma} = \mathbb{C} : \dot{\varepsilon^e}$<br>
+								$\dot{\varepsilon^e} = \dot{\varepsilon} - \dot{\varepsilon^p}$<br>
+								$\dot{\varepsilon} = (\varepsilon - \varepsilon_n) / (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								$\dot{\sigma} = \mathbb{C} : \dot{\varepsilon^e}$<br>
+								$\dot{\varepsilon^e} = \dot{\varepsilon} - \dot{\varepsilon^p}$<br>
+								$\dot{\varepsilon} = (\varepsilon - \varepsilon_n) / (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 23% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>PerzynaPlasticFlowRate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>YieldFunction</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2Invariant</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>MandelStress</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearKinematicHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicHardening</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 23% 23%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>PerzynaPlasticFlowRate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>YieldFunction</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2Invariant</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>MandelStress</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearKinematicHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicHardening</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>AssociativePlasticFlow</code></span><br>
+								<span
+									style="color: coral; font-size: 0.7em;"><code>AssociativeIsotropicPlasticHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>AssociativeKinematicPlasticHardening</code></span>
+							</p>
+						</div>
+					</div>
+				</section>
 			</section>
 
 			<!--
@@ -1310,7 +1511,7 @@ make -j N
 								</tr>
 								<tr>
 									<td>18</td>
-									<td><a href="#/24">Solid mechanics module overview</a></td>
+									<td><a href="#/24">Setting up a solid mechanics model</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -1321,11 +1522,11 @@ make -j N
 
 			<!--
       ##############################################################################
-      Final
+      Thank you
       ##############################################################################
       -->
-			<section data-background-image="assets/ANL.jpeg" data-background-opacity="1">
-				<div style="width: 80%;
+			<section data-background-image="assets/ANL.jpeg" data-background-opacity="0.75">
+				<div style="width: 50%;
 					margin-left: 0;
 					margin-bottom: 0;
 					min-height: 200px;
@@ -1362,9 +1563,8 @@ make -j N
 			height: 700,
 			transitionSpeed: "default",
 			view: 'scroll',
-			slideNumber: true,
 			pdfSeparateFragments: false,
-			autoAnimateUnmatched: false,
+			// autoAnimateUnmatched: false,
 
 			hash: true,
 
