@@ -14,10 +14,10 @@ option(DEVEL "Development mode: Build the examples folder instead of the playgro
 
 if(DEVEL)
   message(STATUS "Development mode: building examples from the examples folder")
-  set(FOLDER "examples")
+  set(FOLDER "${NEML2WORKSHOP_SOURCE_DIR}/examples")
 else()
   message(STATUS "Workshop mode: building examples from the playground folder")
-  set(FOLDER "playground")
+  set(FOLDER "${NEML2WORKSHOP_SOURCE_DIR}/playground")
 endif()
 
 macro(add_workshop_example ex_name)
@@ -39,6 +39,7 @@ add_library(
 )
 target_include_directories(workshop PUBLIC examples)
 target_link_libraries(workshop PUBLIC neml2)
+target_compile_definitions(workshop PUBLIC ROOT_DIR="${FOLDER}")
 
 # register examples
 add_workshop_example(ex01)

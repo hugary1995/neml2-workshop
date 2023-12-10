@@ -81,6 +81,12 @@ void print_neml2_tensor_info(const neml2::BatchTensor & x,
 template <class T>
 T & load(const std::string & path, const std::string & section, const std::string & name);
 
+std::string
+root_dir()
+{
+  return std::string(ROOT_DIR) + "/";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Implementations
 ///////////////////////////////////////////////////////////////////////////////

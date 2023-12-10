@@ -11,7 +11,7 @@ int
 main()
 {
   workshop_preface();
-  auto & model = load<Model>("examples/ParametrizedFlyingBall.i", "Models", "trajectory");
+  auto & model = load<Model>(root_dir() + "ParametrizedFlyingBall.i", "Models", "trajectory");
 
   TorchSize nbatch = 5;
   auto in = LabeledVector::empty({nbatch}, {&model.input()});

@@ -10,7 +10,7 @@ main()
 {
   workshop_preface();
   // REMOVE_BEGIN
-  auto & driver = load<Driver>("examples/FlyingBall.i", "Drivers", "launcher");
+  auto & driver = load<Driver>(root_dir() + "FlyingBall.i", "Drivers", "launcher");
   driver.run();
   // REMOVE_END
 

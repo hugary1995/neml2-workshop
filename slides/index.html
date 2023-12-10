@@ -113,7 +113,7 @@
 				<h2 class="r-fit-text">NEML2 WORKSHOP</h2>
 				<p style="text-align: center;">Dec 12, 2023</p>
 				<p style="text-align: center;">
-					Presentation <a href="https://hugary1995.github.io/neml2-workshop/">HTML</a> <a
+					Presentation <a href="https://hugary1995.github.io/neml2-workshop/?view=scroll">HTML</a> <a
 						href="https://hugary1995.github.io/neml2-workshop/?print-pdf">PDF</a><br>
 					<a href="https://github.com/reverendbedford/neml2">NEML2 GitHub repository</a><br>
 					<a href="https://github.com/hugary1995/neml2-workshop">Workshop examples</a>
@@ -187,56 +187,56 @@ make -j N
 				</div>
 			</section>
 
-			<!--
-      ##############################################################################
-      Overview
-      ##############################################################################
-      -->
 			<section>
-				<h2>Overview</h2>
-				<div class="container" style="grid-template-columns: 75% 25%;">
-					<div class="col">
-						<div class="item fragment">
-							<img src="assets/atom.png" style="height: 80px;" class="icon">
-							<p class="text">NEML2: New Engineering Material modeling
-								Library, version 2
-							</p>
+				<!--
+				##############################################################################
+				Overview
+				##############################################################################
+				-->
+				<section>
+					<h2>Overview</h2>
+					<div class="container" style="grid-template-columns: 75% 25%;">
+						<div class="col">
+							<div class="item fragment">
+								<img src="assets/atom.png" style="height: 80px;" class="icon">
+								<p class="text">NEML2: New Engineering Material modeling
+									Library, version 2
+								</p>
+							</div>
+							<div class="item fragment">
+								<img src="assets/link.png" style="height: 80px;" class="icon">
+								<p class="text">Currently, we rely on libtorch, the C++ backend of PyTorch, as the tensor backend.
+								</p>
+							</div>
+							<div class="item fragment">
+								<img src="assets/folder.png" style="height: 80px;" class="icon">
+								<p class="text">The folder hierarchy of the repository serves as a high-level summary of NEML2
+									capabilities.
+								</p>
+							</div>
 						</div>
-						<div class="item fragment">
-							<img src="assets/link.png" style="height: 80px;" class="icon">
-							<p class="text">Currently, we rely on libtorch, the C++ backend of PyTorch, as the tensor backend.
-							</p>
-						</div>
-						<div class="item fragment">
-							<img src="assets/folder.png" style="height: 80px;" class="icon">
-							<p class="text">The folder hierarchy of the repository serves as a high-level summary of NEML2
-								capabilities.
-							</p>
+						<div class="col fragment" style="padding-left: 1em; align-items: end;">
+							<pre class="shell">
+								<code data-trim data-noescape style="font-size: 1em; padding: 1em;">
+									neml2
+										↳ tensors
+										↳ models
+										↳ solvers
+										↳ drivers
+										↳ base
+										↳ misc
+								</code>
+							</pre>
 						</div>
 					</div>
-					<div class="col fragment" style="padding-left: 1em; align-items: end;">
-						<pre class="shell">
-              <code data-trim data-noescape style="font-size: 1em; padding: 1em;">
-                neml2
-                  ↳ tensors
-                  ↳ models
-                  ↳ solvers
-                  ↳ drivers
-                  ↳ base
-                  ↳ misc
-              </code>
-            </pre>
-					</div>
-				</div>
-			</section>
+				</section>
 
-			<!--
-      ##############################################################################
-      Workflow/Roadmap
-      ##############################################################################
-      -->
-			<section>
-				<section data-auto-animate>
+				<!--
+				##############################################################################
+				Workflow/Roadmap
+				##############################################################################
+				-->
+				<section data-auto-animate="roadmap">
 					<div class="container" style="grid-template-columns: 55% 45%;">
 						<div class="col" style="justify-content: center;">
 							<h4>Workflow/Roadmap</h2>
@@ -261,7 +261,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate>
+				<section data-auto-animate="roadmap">
 					<div class="container" style="grid-template-columns: 55% 45%;">
 						<div class="col" style="justify-content: center;">
 							<h4>Workflow/Roadmap</h2>
@@ -295,79 +295,83 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section>
-					<h3>Before diving into the examples</h3>
-					<p class="fragment">These training materials are designed to offer a <span
-							style="color: coral">hands-on</span>
-						experience.</p>
-					<p class="fragment">The core NEML2 capabilities are split into tiny pieces and will be introduced
-						progressively
-						in the following slides.</p>
-					<p class="fragment">Each tiny piece comes with an example.</p>
-					<p class="fragment">The <span style="color: coral"><code>playground</code></span> folder is populated with
-						boilerplate
-						code for each example. We will complete the examples in an interactive fashion.</p>
-					<p class="fragment"><span style="color: coral;">Please stop me ASAP if you have any question.</span></p>
-					<p class="fragment">Final words: The playground is for playing... You don't have to exactly follow what I
-						write on the screen -- you are encouraged to modify the examples to verify your understanding.</p>
-					<h3 class="fragment">Happy coding!</h3>
-				</section>
-				<section>
-					<h3>Table of Content</h3>
-					<div class="container" style="grid-template-columns: 20% 60% 20%;">
-						<div class="col"></div>
-						<div class="col">
-							<p style="text-align: center;">In this workshop, we will cover:</p>
-							<table>
-								<thead style="font-size: 0.5em;">
-									<tr>
-										<th>Examples</th>
-										<th>Topic</th>
-									</tr>
-								</thead>
-								<tbody style="font-size: 0.4em;">
-									<tr>
-										<td>1-5</td>
-										<td><a href="#/6">Tensor creation, broadcasting, indexing, and viewing</a></td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td><a href="#/10">Primitive tensor types</a></td>
-									</tr>
-									<tr>
-										<td>7-8</td>
-										<td><a href="#/11">Tensor labeling</a></td>
-									</tr>
-									<tr>
-										<td>9-10</td>
-										<td><a href="#/15">Model definition, registration, and deserialization</a></td>
-									</tr>
-									<tr>
-										<td>11-12</td>
-										<td><a href="#/18">Model evaluation and automatic differentiation</a></td>
-									</tr>
-									<tr>
-										<td>13</td>
-										<td><a href="#/20">Model composition, dependency resolution, and chain rule</a></td>
-									</tr>
-									<tr>
-										<td>14-15</td>
-										<td><a href="#/21">Solving an implicit model</a></td>
-									</tr>
-									<tr>
-										<td>16-17</td>
-										<td><a href="#/23">Model parametrization</a></td>
-									</tr>
-									<tr>
-										<td>18</td>
-										<td><a href="#/24">Setting up a solid mechanics model</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="col"></div>
+				<h3>Before diving into the examples</h3>
+				<p class="fragment">These training materials are designed to offer a <span style="color: coral">hands-on</span>
+					experience.</p>
+				<p class="fragment">The core NEML2 capabilities are split into tiny pieces and will be introduced
+					progressively
+					in the following slides.</p>
+				<p class="fragment">Each tiny piece comes with an example.</p>
+				<p class="fragment">The <span style="color: coral"><code>playground</code></span> folder is populated with
+					boilerplate
+					code for each example. We will complete the examples in an interactive fashion.</p>
+				<p class="fragment"><span style="color: coral;">Please stop me ASAP if you have any question.</span></p>
+				<p class="fragment">Final words: The playground is for playing... You don't have to exactly follow what I
+					write on the screen -- you are encouraged to modify the examples to verify your understanding.</p>
+				<h3 class="fragment">Happy coding!</h3>
+			</section>
+
+			<!--
+      ##############################################################################
+      TOC
+      ##############################################################################
+      -->
+			<section>
+				<h3>Table of Content</h3>
+				<div class="container" style="grid-template-columns: 20% 60% 20%;">
+					<div class="col"></div>
+					<div class="col">
+						<p style="text-align: center;">In this workshop, we will cover:</p>
+						<table>
+							<thead style="font-size: 0.5em;">
+								<tr>
+									<th>Examples</th>
+									<th>Topic</th>
+								</tr>
+							</thead>
+							<tbody style="font-size: 0.5em;">
+								<tr>
+									<td>1-5</td>
+									<td><span style="color: #e7ad52;">Tensor creation, broadcasting, indexing, and viewing</span></td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td><span style="color: #e7ad52;">Primitive tensor types</span></td>
+								</tr>
+								<tr>
+									<td>7-8</td>
+									<td><span style="color: #e7ad52;">Tensor labeling</span></td>
+								</tr>
+								<tr>
+									<td>9-10</td>
+									<td><span style="color: #e7ad52;">Model definition, registration, and deserialization</span></td>
+								</tr>
+								<tr>
+									<td>11-12</td>
+									<td><span style="color: #e7ad52;">Model evaluation and automatic differentiation</span></td>
+								</tr>
+								<tr>
+									<td>13</td>
+									<td><span style="color: #e7ad52;">Model composition, dependency resolution, and chain rule</span>
+									</td>
+								</tr>
+								<tr>
+									<td>14-15</td>
+									<td><span style="color: #e7ad52;">Solving an implicit model</span></td>
+								</tr>
+								<tr>
+									<td>16-17</td>
+									<td><span style="color: #e7ad52;">Model parametrization</span></td>
+								</tr>
+								<tr>
+									<td>18</td>
+									<td><span style="color: #e7ad52;">Setting up a solid mechanics model</span></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-				</section>
+					<div class="col"></div>
+				</div>
 			</section>
 
 			<!--
@@ -462,7 +466,7 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section data-auto-animate>
+				<section data-auto-animate="broadcasting">
 					<h3>Example 2: Broadcasting</h3>
 					<div class="container" style="grid-template-columns: 55% 45%;">
 						<div class="col">
@@ -498,7 +502,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate>
+				<section data-auto-animate="broadcasting">
 					<h3>Example 2: Broadcasting</h3>
 					<pre class="arduino" style="line-height: 1.5em;">
 						<code data-noescape style="font-size: 1.2em;" data-line-numbers="1-4|1-7|1-11">
@@ -716,7 +720,7 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="labeledtensor" data-auto-animate-unmatched="false">
 					<h3>Example 8: Labeled Tensors</h3>
 					<div class="container" style="grid-template-columns: 65% 35%;">
 						<div class="col">
@@ -752,7 +756,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="labeledtensor" data-auto-animate-unmatched="false">
 					<h3>Example 8: Labeled Tensors</h3>
 					<div class="container" style="grid-template-columns: 65% 35%;">
 						<div class="col">
@@ -852,7 +856,7 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section data-auto-animate>
+				<section data-auto-animate="model">
 					<h3>Example 9: Model definition</h3>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
@@ -907,7 +911,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate>
+				<section data-auto-animate="model">
 					<h3>Example 9: Model definition</h3>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
@@ -1253,7 +1257,7 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
 					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
 					<div class="container" style="grid-template-columns: 33% 23% 24% 20%;">
 						<div class="col">
@@ -1295,7 +1299,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
 					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
 					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
 						<div class="col">
@@ -1335,7 +1339,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
 					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
 					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
 						<div class="col">
@@ -1375,7 +1379,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
 					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
 					<div class="container" style="grid-template-columns: 28% 23% 23% 20%;">
 						<div class="col">
@@ -1415,7 +1419,7 @@ make -j N
 						</div>
 					</div>
 				</section>
-				<section data-auto-animate data-auto-animate-unmatched="false">
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
 					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
 					<div class="container" style="grid-template-columns: 28% 23% 23% 23%;">
 						<div class="col">
@@ -1456,6 +1460,19 @@ make -j N
 						</div>
 					</div>
 				</section>
+				<section data-auto-animate="solid mechanics">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<p style="text-align: center;">Use the <span style="color: coral">radial return</span> algorithm to integrate
+						a creep model with <span style="color: coral">custom
+							isotropic hardening</span>:
+						\[
+						\begin{align}
+						h = a \bar{\varepsilon}^p \exp \left( -\dfrac{\bar{\varepsilon}^p}{b} \right)
+						\end{align}
+						\]
+					</p>
+					<img class="fragment" src="assets/stress_strain_curves.svg" style="height: 300px;">
+				</section>
 			</section>
 
 			<!--
@@ -1464,54 +1481,53 @@ make -j N
       ##############################################################################
       -->
 			<section>
-				<h3>Conclusion</h3>
+				<h3>In this workshop, we have covered</h3>
 				<div class="container" style="grid-template-columns: 20% 60% 20%;">
 					<div class="col"></div>
 					<div class="col">
-						<p style="text-align: center;">In this workshop, we covered:</p>
 						<table>
-							<thead style="font-size: 0.5em;">
+							<thead style="font-size: 0.7em;">
 								<tr>
 									<th>Examples</th>
 									<th>Topic</th>
 								</tr>
 							</thead>
-							<tbody style="font-size: 0.4em;">
+							<tbody style="font-size: 0.5em;">
 								<tr>
 									<td>1-5</td>
-									<td><a href="#/6">Tensor creation, broadcasting, indexing, and viewing</a></td>
+									<td><span style="color: #e7ad52;">Tensor creation, broadcasting, indexing, and viewing</span></td>
 								</tr>
 								<tr>
 									<td>6</td>
-									<td><a href="#/10">Primitive tensor types</a></td>
+									<td><span style="color: #e7ad52;">Primitive tensor types</span></td>
 								</tr>
 								<tr>
 									<td>7-8</td>
-									<td><a href="#/11">Tensor labeling</a></td>
+									<td><span style="color: #e7ad52;">Tensor labeling</span></td>
 								</tr>
 								<tr>
 									<td>9-10</td>
-									<td><a href="#/15">Model definition, registration, and deserialization</a></td>
+									<td><span style="color: #e7ad52;">Model definition, registration, and deserialization</span></td>
 								</tr>
 								<tr>
 									<td>11-12</td>
-									<td><a href="#/18">Model evaluation and automatic differentiation</a></td>
+									<td><span style="color: #e7ad52;">Model evaluation and automatic differentiation</span></td>
 								</tr>
 								<tr>
 									<td>13</td>
-									<td><a href="#/20">Model composition, dependency resolution, and chain rule</a></td>
+									<td><span style="color: #e7ad52;">Model composition, dependency resolution, and chain rule</span></td>
 								</tr>
 								<tr>
 									<td>14-15</td>
-									<td><a href="#/21">Solving an implicit model</a></td>
+									<td><span style="color: #e7ad52;">Solving an implicit model</span></td>
 								</tr>
 								<tr>
 									<td>16-17</td>
-									<td><a href="#/23">Model parametrization</a></td>
+									<td><span style="color: #e7ad52;">Model parametrization</span></td>
 								</tr>
 								<tr>
 									<td>18</td>
-									<td><a href="#/24">Setting up a solid mechanics model</a></td>
+									<td><span style="color: #e7ad52;">Setting up a solid mechanics model</span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -1560,11 +1576,9 @@ make -j N
 		// - https://revealjs.com/config/
 		Reveal.initialize({
 			width: 1280,
-			height: 700,
+			height: 720,
 			transitionSpeed: "default",
-			view: 'scroll',
 			pdfSeparateFragments: false,
-			// autoAnimateUnmatched: false,
 
 			hash: true,
 

@@ -9,10 +9,9 @@ int
 main()
 {
   workshop_preface();
-  // REMOVE_BEGIN
-  auto & driver = load<Driver>("examples/CustomIsotropicHardening.i", "Drivers", "driver");
+
+  auto & driver = load<Driver>(root_dir() + "CustomIsotropicHardening.i", "Drivers", "driver");
   driver.run();
-  // REMOVE_END
 
   return 0;
 }

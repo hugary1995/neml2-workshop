@@ -11,7 +11,7 @@ main()
 {
   workshop_preface();
   // REMOVE_BEGIN
-  auto & model = load<Model>("examples/FlyingBall.i", "Models", "trajectory");
+  auto & model = load<Model>(root_dir() + "FlyingBall.i", "Models", "trajectory");
   auto in = LabeledVector::empty({3}, {&model.input()});
 
   // Specify old velocity

@@ -9,10 +9,9 @@ int
 main()
 {
   workshop_preface();
-  // REMOVE_BEGIN
-  auto & driver = load<Driver>("examples/ParametrizedFlyingBall.i", "Drivers", "launcher");
+
+  auto & driver = load<Driver>(root_dir() + "ParametrizedFlyingBall.i", "Drivers", "launcher");
   driver.run();
-  // REMOVE_END
 
   return 0;
 }

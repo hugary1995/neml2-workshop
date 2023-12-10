@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import torch
 from matplotlib import pyplot as plt
 from pathlib import Path

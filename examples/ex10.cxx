@@ -8,7 +8,7 @@ main()
 {
   workshop_preface();
   // REMOVE_BEGIN
-  auto & model = load<FlyingBall>("examples/FlyingBall.i", "Models", "ball");
+  auto & model = load<FlyingBall>(root_dir() + "FlyingBall.i", "Models", "ball");
 
   print_general(model.input(), "FlyingBall input variables");
   print_general(model.output(), "FlyingBall output variables");

@@ -10,7 +10,7 @@ main()
 {
   workshop_preface();
   // REMOVE_BEGIN
-  auto & model = load<ComposedModel>("examples/FlyingBall.i", "Models", "implicit_trajectory");
+  auto & model = load<ComposedModel>(root_dir() + "FlyingBall.i", "Models", "implicit_trajectory");
 
   print_general(model.input(), "implicit_trajectory input variables");
   print_general(model.output(), "implicit_trajectory output variables");
