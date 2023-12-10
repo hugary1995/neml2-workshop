@@ -1,0 +1,170 @@
+digraph {
+compound = true
+graph [ranksep = 4, penwidth = 2]
+subgraph cluster_1 {
+label = "implicit_trajectory input"
+bgcolor = lightgrey
+"implicit_trajectory input" [label = "", style = invis]
+subgraph cluster_2 {
+label = "implicit_trajectory input forces"
+bgcolor = lightgrey
+"implicit_trajectory input forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_3 {
+label = "implicit_trajectory input old_forces"
+bgcolor = lightgrey
+"implicit_trajectory input old_forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_4 {
+label = "implicit_trajectory input old_state"
+bgcolor = lightgrey
+"implicit_trajectory input old_state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"implicit_trajectory input old_state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+subgraph cluster_5 {
+label = "implicit_trajectory input state"
+bgcolor = lightgrey
+"implicit_trajectory input state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"implicit_trajectory input state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+subgraph cluster_6 {
+label = "position"
+subgraph cluster_7 {
+label = "position input"
+bgcolor = lightgrey
+"position input" [label = "", style = invis]
+subgraph cluster_8 {
+label = "position input forces"
+bgcolor = lightgrey
+"position input forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_9 {
+label = "position input old_forces"
+bgcolor = lightgrey
+"position input old_forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_10 {
+label = "position input old_state"
+bgcolor = lightgrey
+"position input old_state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"position input old_state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+subgraph cluster_11 {
+label = "position input state"
+bgcolor = lightgrey
+"position input state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"position input state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+subgraph cluster_12 {
+label = "position output"
+bgcolor = lightgrey
+"position output" [label = "", style = invis]
+subgraph cluster_13 {
+label = "position output residual"
+bgcolor = lightgrey
+"position output residual v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"position output residual x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+"implicit_trajectory input" -> "position input"[ltail = cluster_1, lhead = cluster_7, penwidth = 2]
+}
+subgraph cluster_14 {
+label = "ball"
+subgraph cluster_15 {
+label = "ball input"
+bgcolor = lightgrey
+"ball input" [label = "", style = invis]
+subgraph cluster_16 {
+label = "ball input forces"
+bgcolor = lightgrey
+"ball input forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_17 {
+label = "ball input old_forces"
+bgcolor = lightgrey
+"ball input old_forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_18 {
+label = "ball input old_state"
+bgcolor = lightgrey
+"ball input old_state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"ball input old_state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+subgraph cluster_19 {
+label = "ball input state"
+bgcolor = lightgrey
+"ball input state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"ball input state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+subgraph cluster_20 {
+label = "ball output"
+bgcolor = lightgrey
+"ball output" [label = "", style = invis]
+subgraph cluster_21 {
+label = "ball output residual"
+bgcolor = lightgrey
+"ball output residual v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"ball output residual x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+"implicit_trajectory input" -> "ball input"[ltail = cluster_1, lhead = cluster_15, penwidth = 2]
+}
+subgraph cluster_22 {
+label = "velocity"
+subgraph cluster_23 {
+label = "velocity input"
+bgcolor = lightgrey
+"velocity input" [label = "", style = invis]
+subgraph cluster_24 {
+label = "velocity input forces"
+bgcolor = lightgrey
+"velocity input forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_25 {
+label = "velocity input old_forces"
+bgcolor = lightgrey
+"velocity input old_forces t" [style = filled, color = white, shape = Square, label = "t [1]"]
+}
+subgraph cluster_26 {
+label = "velocity input old_state"
+bgcolor = lightgrey
+"velocity input old_state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"velocity input old_state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+subgraph cluster_27 {
+label = "velocity input state"
+bgcolor = lightgrey
+"velocity input state v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"velocity input state x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+subgraph cluster_28 {
+label = "velocity output"
+bgcolor = lightgrey
+"velocity output" [label = "", style = invis]
+subgraph cluster_29 {
+label = "velocity output residual"
+bgcolor = lightgrey
+"velocity output residual v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"velocity output residual x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+"ball output" -> "velocity input"[ltail = cluster_20, lhead = cluster_23, penwidth = 2]
+}
+subgraph cluster_31 {
+label = "implicit_trajectory output"
+bgcolor = lightgrey
+"implicit_trajectory output" [label = "", style = invis]
+subgraph cluster_32 {
+label = "implicit_trajectory output residual"
+bgcolor = lightgrey
+"implicit_trajectory output residual v" [style = filled, color = white, shape = Square, label = "v [3]"]
+"implicit_trajectory output residual x" [style = filled, color = white, shape = Square, label = "x [3]"]
+}
+}
+"position output" -> "implicit_trajectory output"[ltail = cluster_12, lhead = cluster_31, penwidth = 2]
+"velocity output" -> "implicit_trajectory output"[ltail = cluster_28, lhead = cluster_31, penwidth = 2]
+}

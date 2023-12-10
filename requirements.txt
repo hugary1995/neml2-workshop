@@ -1,0 +1,4 @@
+#
+##### pip requirements ######
+#
+-r neml2/requirements.txt
