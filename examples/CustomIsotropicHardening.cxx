@@ -39,6 +39,8 @@ CustomIsotropicHardening::set_value(const LabeledVector & in,
   {
     auto dh_dep = _a * math::exp(-ep / _b) - _a / _b * ep * math::exp(-ep / _b);
     dout_din->set(dh_dep, isotropic_hardening, equivalent_plastic_strain);
+    if (has_nonlinear_parameter("a"))
+      dout_din->set(ep * math::exp(-ep / _b), isotropic_hardening, nl_param("a"));
   }
 
   if (d2out_din2)

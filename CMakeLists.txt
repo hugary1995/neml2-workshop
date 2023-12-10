@@ -36,6 +36,7 @@ add_library(
   "${FOLDER}/ParametrizedFlyingBall.cxx"
   "${FOLDER}/BallLauncher.cxx"
   "${FOLDER}/CustomIsotropicHardening.cxx"
+  "${FOLDER}/ArrheniusLaw.cxx"
 )
 target_include_directories(workshop PUBLIC examples)
 target_link_libraries(workshop PUBLIC neml2)
@@ -60,3 +61,4 @@ add_workshop_example(ex15)
 add_workshop_example(ex16)
 add_workshop_example(ex17)
 add_workshop_example(ex18)
+add_workshop_example(ex19)

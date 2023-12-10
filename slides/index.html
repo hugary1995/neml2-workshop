@@ -1477,6 +1477,28 @@ make -j N
 
 			<!--
       ##############################################################################
+      Example 19
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 19: Multiphysics Coupling</h3>
+				<p>Multiphysics coupling is sort of a <span style="color: coral">"false premise"</span> because of the way NEML2
+					handles model composition.</p>
+				<p>Recall that NEML2 deals with model composition with</p>
+				<ul>
+					<li><span style="color: coral">Automatic</span> dependency registration</li>
+					<li><span style="color: coral">Automatic</span> input/output identification</li>
+					<li><span style="color: coral">Automatic</span> dependency resolution</li>
+					<li><span style="color: coral">Automatic</span> chain rule</li>
+				</ul>
+				<p class="fragment">The additional (Multiphysics) coupling with another variable will be automatically added by
+					the "4
+					automatics", with one exception...</p>
+				<p class="fragment">What if the model parameter is a function of other variables?</p>
+			</section>
+
+			<!--
+      ##############################################################################
       Conclusion
       ##############################################################################
       -->

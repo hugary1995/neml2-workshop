@@ -33,6 +33,18 @@ template <typename T>
 void print_general(const T & x, const std::string_view title = "", const size_t pad = 3, const size_t n = 79);
 
 /**
+ * @brief Print a dictionary
+ *
+ * @param x Something to print -- the iterator must be able to unpack to 2 lvalues
+ * @param f The functor to be applied to the dictionary values before printing
+ * @param title The centered title to print
+ * @param pad Spacing around the title text
+ * @param n Total width of the title line
+ */
+template <typename T, typename F>
+void print_dict(const T & x, F && f, const std::string_view title = "", const size_t pad = 3, const size_t n = 79);
+
+/**
  * @brief Format print a torch::Tensor
  *
  * @param x The torch tensor to print
@@ -98,6 +110,16 @@ print_general(const T & x, const std::string_view title, const size_t pad, const
   print_title(title, pad, n);
 
   std::cout << neml2::utils::stringify(x) << std::endl << std::endl;
+}
+
+template <typename T, typename F>
+void
+print_dict(const T & x, F && f, const std::string_view title, const size_t pad, const size_t n)
+{
+  print_title(title, pad, n);
+
+  for (auto && [k, v] : x)
+    std::cout << k << ": " << f(v) << std::endl;
 }
 
 template <class T>
