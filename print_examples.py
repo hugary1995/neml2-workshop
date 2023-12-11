@@ -7,7 +7,7 @@ import subprocess
 ex_dir = Path("examples")
 out_dir = Path("examples-pdf")
 language = {".h": "cpp", ".cxx": "cpp", ".i": "python"}
-
+skip = ["workshop.h", "workshop.cxx"]
 
 if __name__ == "__main__":
     if not shutil.which("enscript"):
@@ -28,6 +28,8 @@ if __name__ == "__main__":
             continue
         if file.suffix not in language:
             continue
+        if str(file.relative_to(ex_dir)) in skip:
+            continue
 
         ofile = out_dir / file.relative_to(ex_dir)
 
@@ -38,6 +40,8 @@ if __name__ == "__main__":
             str(ofile) + ".ps",
             "-E{}".format(language[file.suffix]),
             "--color",
+            "-M",
+            "Letter",
             str(file),
         ]
         print(" ".join(args))

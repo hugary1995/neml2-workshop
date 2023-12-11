@@ -38,3 +38,4 @@ ex*-*
 *.dot
 package-lock.json
 !**/assets/*
+.DS_Store
