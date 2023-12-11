@@ -1,0 +1,1622 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>NEML2 Workshop</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/night.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/atom-one-dark.css">
+	<style type="text/css">
+		p {
+			text-align: left;
+			font-size: 0.6em;
+		}
+
+		ul {
+			font-size: 0.6em;
+			line-height: 1.8em;
+		}
+
+		ol {
+			font-size: 0.6em;
+			line-height: 1.8em;
+			list-style-type: none;
+			counter-reset: item;
+			margin: 0;
+			padding: 0;
+		}
+
+		ol>li {
+			display: table;
+			counter-increment: item;
+			margin-bottom: 0.3em;
+		}
+
+		ol>li:before {
+			content: counters(item, ".") ". ";
+			display: table-cell;
+			padding-right: 0.6em;
+		}
+
+		li ol>li {
+			margin: 0;
+		}
+
+		li ol>li:before {
+			content: counters(item, ".") " ";
+		}
+
+		table tbody tr>.nobottom {
+			border-bottom: none;
+		}
+
+		.reveal pre {
+			line-height: 1.5em;
+		}
+
+		.reveal .code-wrapper code {
+			font-size: medium;
+		}
+
+		.container {
+			display: grid;
+		}
+
+		.col {
+			margin-left: 0.1em;
+			margin-right: 0.1em;
+			display: grid;
+			align-items: start;
+		}
+
+		.col .item {
+			background-color: #004747;
+			border-radius: 15px 15px;
+			margin-top: 0.3em;
+			margin-bottom: 0.3em;
+		}
+
+		.col .item .icon {
+			float: left;
+			margin-left: 1em;
+			margin-right: 1em;
+		}
+
+		.col .item .text {
+			text-align: left;
+			font-size: 0.8em;
+		}
+
+		mjx-container[jax="CHTML"][display="true"] {
+			font-size: 75% !important;
+			color: #dfe4f7;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!--
+      ##############################################################################
+      Cover
+      ##############################################################################
+      -->
+			<section>
+				<h2 class="r-fit-text">NEML2 WORKSHOP</h2>
+				<p style="text-align: center;">Dec 12, 2023</p>
+				<p style="text-align: center;">
+					Presentation <a href="https://hugary1995.github.io/neml2-workshop/?view=scroll">HTML</a> <a
+						href="https://hugary1995.github.io/neml2-workshop/?print-pdf">PDF</a><br>
+					<a href="https://github.com/reverendbedford/neml2">NEML2 GitHub repository</a><br>
+					<a href="https://github.com/hugary1995/neml2-workshop">Workshop examples</a>
+				</p>
+				<p style="text-align: center;">
+					<img src="assets/DOENE.png" alt="Department of Energy Office of Nuclear Energy"
+						style="height: 110px; margin: 4rem auto 2rem auto; display: inline-block;">
+					<img src="assets/NEAMS-with-tagline.png" alt="Nuclear Engineering Advanced Modeling and Simulation"
+						style="height: 130px; margin: 4rem auto 2rem auto; display: inline-block;">
+					<img src="assets/Argonnelablogo.png" alt="Argonne National Laboratory"
+						style="height: 80px; margin: 4rem auto 2rem auto; display: inline-block;">
+				</p>
+			</section>
+
+			<!--
+      ##############################################################################
+      Installation
+      ##############################################################################
+      -->
+			<section>
+				<h2>Installation</h2>
+				<p>Full NEML2 installation guide is available at <a
+						href="https://reverendbedford.github.io/neml2/install.html">https://reverendbedford.github.io/neml2/install.html</a>
+				</p>
+				<p>This workshop uses a separate repository and embeds NEML2 as a submodule. For Mac/Linux users, to download
+					and setup the
+					workshop examples:</p>
+				<div class="container" style="grid-template-columns: 50% 50%;">
+					<div class="col">
+						<p style="text-align: center;">Mac</p>
+						<pre class="shell" style="line-height: 0.9em;">
+              <code data-trim data-noescape>
+git clone git@github.com:hugary1995/neml2-workshop.git --recursive
+cd neml2-workshop
+
+conda create -n neml2
+conda activate neml2
+conda install python=3.11 cmake clang-format
+
+
+pip install -r requirements.txt
+pip install torch
+
+cmake -B build .
+cd build
+make -j N
+              </code>
+            </pre>
+					</div>
+					<div class="col">
+						<p style="text-align: center;">Linux</p>
+						<pre class="shell" style="line-height: 0.9em;">
+              <code data-trim data-noescape>
+git clone git@github.com:hugary1995/neml2-workshop.git --recursive
+cd neml2-workshop
+
+conda create -n neml2
+conda activate neml2
+conda install -c "nvidia/label/cuda-12.1.1" \
+  cuda-toolkit python=3.11 cmake clang-format
+
+pip install -r requirements.txt
+pip install torch
+
+cmake -B build .
+cd build
+make -j N
+              </code>
+            </pre>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<!--
+				##############################################################################
+				Overview
+				##############################################################################
+				-->
+				<section>
+					<h2>Overview</h2>
+					<div class="container" style="grid-template-columns: 75% 25%;">
+						<div class="col">
+							<div class="item fragment">
+								<img src="assets/atom.png" style="height: 80px;" class="icon">
+								<p class="text">NEML2: New Engineering Material modeling
+									Library, version 2
+								</p>
+							</div>
+							<div class="item fragment">
+								<img src="assets/link.png" style="height: 80px;" class="icon">
+								<p class="text">Currently, we rely on libtorch, the C++ backend of PyTorch, as the tensor backend.
+								</p>
+							</div>
+							<div class="item fragment">
+								<img src="assets/folder.png" style="height: 80px;" class="icon">
+								<p class="text">The folder hierarchy of the repository serves as a high-level summary of NEML2
+									capabilities.
+								</p>
+							</div>
+						</div>
+						<div class="col fragment" style="padding-left: 1em; align-items: end;">
+							<pre class="shell">
+								<code data-trim data-noescape style="font-size: 1em; padding: 1em;">
+									neml2
+										↳ tensors
+										↳ models
+										↳ solvers
+										↳ drivers
+										↳ base
+										↳ misc
+								</code>
+							</pre>
+						</div>
+					</div>
+				</section>
+
+				<!--
+				##############################################################################
+				Workflow/Roadmap
+				##############################################################################
+				-->
+				<section data-auto-animate="roadmap">
+					<div class="container" style="grid-template-columns: 55% 45%;">
+						<div class="col" style="justify-content: center;">
+							<h4>Workflow/Roadmap</h2>
+								<img src="assets/flow.png" style="height: 500px;">
+						</div>
+						<div class="col fragment">
+							<h4>Framework-level features</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">☑ Completed</h4>
+							<ul>
+								<li>Primitive tensor types with built-in vectorization</li>
+								<li>Efficient tensor viewing and labeling</li>
+								<li>Model archival and deserialization (HIT)</li>
+								<li>Model composition and dependency resolution</li>
+								<li>General-purpose models</li>
+								<li>Integration into BlackBear</li>
+							</ul>
+							<h4 style="text-align: left; margin-bottom: 0;">▣ In progress</h4>
+							<ul>
+								<li>Python bindings</li>
+								<li>Option metadata documentation</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="roadmap">
+					<div class="container" style="grid-template-columns: 55% 45%;">
+						<div class="col" style="justify-content: center;">
+							<h4>Workflow/Roadmap</h2>
+								<img src="assets/flow.png" style="height: 500px;">
+						</div>
+						<div class="col">
+							<h4>Physics modules</h4>
+							<h4 style="text-align: left; margin-bottom: 0;">☑ Completed</h4>
+							<ul>
+								<li>Solid mechanics: Elasticity</li>
+								<li>Solid mechanics: Creep</li>
+								<li>Solid mechanics: Macroscale plasticity</li>
+								<li><u>Solid mechanics: Radial return algorithm</u></li>
+								<li><u>Solid mechanics: Crystalplasticity</u></li>
+								<li><u>Multiphysics: Nonlinear model parameters</u></li>
+							</ul>
+							<h4 style="text-align: left; margin-bottom: 0;">▣ In progress</h4>
+							<ul>
+								<li>Solid mechanics: Creep-plasticity model</li>
+								<li>Solid mechanics: Objective integration</li>
+								<li>Multiphysics: Thermomechanical coupling</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!--
+      ##############################################################################
+      Prelude
+      ##############################################################################
+      -->
+			<section>
+				<h3>Before diving into the examples</h3>
+				<p class="fragment">These training materials are designed to offer a <span style="color: coral">hands-on</span>
+					experience.</p>
+				<p class="fragment">The core NEML2 capabilities are split into tiny pieces and will be introduced
+					progressively
+					in the following slides.</p>
+				<p class="fragment">Each tiny piece comes with an example.</p>
+				<p class="fragment">The <span style="color: coral"><code>playground</code></span> folder is populated with
+					boilerplate
+					code for each example. We will complete the examples in an interactive fashion.</p>
+				<p class="fragment"><span style="color: coral;">Please stop me ASAP if you have any question.</span></p>
+				<p class="fragment">Final words: The playground is for playing... You don't have to exactly follow what I
+					write on the screen -- you are encouraged to modify the examples to verify your understanding.</p>
+				<h3 class="fragment">Happy coding!</h3>
+			</section>
+
+			<!--
+      ##############################################################################
+      TOC
+      ##############################################################################
+      -->
+			<section>
+				<h3>Table of Content</h3>
+				<div class="container" style="grid-template-columns: 20% 60% 20%;">
+					<div class="col"></div>
+					<div class="col">
+						<p style="text-align: center;">In this workshop, we will cover:</p>
+						<table>
+							<thead style="font-size: 0.5em;">
+								<tr>
+									<th>Examples</th>
+									<th>Topic</th>
+								</tr>
+							</thead>
+							<tbody style="font-size: 0.5em;">
+								<tr>
+									<td>1-5</td>
+									<td><span style="color: #e7ad52;">Tensor creation, broadcasting, indexing, and viewing</span></td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td><span style="color: #e7ad52;">Primitive tensor types</span></td>
+								</tr>
+								<tr>
+									<td>7-8</td>
+									<td><span style="color: #e7ad52;">Tensor labeling</span></td>
+								</tr>
+								<tr>
+									<td>9-10</td>
+									<td><span style="color: #e7ad52;">Model definition, registration, and deserialization</span></td>
+								</tr>
+								<tr>
+									<td>11-12</td>
+									<td><span style="color: #e7ad52;">Model evaluation and automatic differentiation</span></td>
+								</tr>
+								<tr>
+									<td>13</td>
+									<td><span style="color: #e7ad52;">Model composition, dependency resolution, and chain rule</span>
+									</td>
+								</tr>
+								<tr>
+									<td>14-15</td>
+									<td><span style="color: #e7ad52;">Solving an implicit model</span></td>
+								</tr>
+								<tr>
+									<td>16-17</td>
+									<td><span style="color: #e7ad52;">Model parametrization</span></td>
+								</tr>
+								<tr>
+									<td>18</td>
+									<td><span style="color: #e7ad52;">Setting up a solid mechanics model</span></td>
+								</tr>
+								<tr>
+									<td>19</td>
+									<td><span style="color: #e7ad52;">Multiphysics coupling</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col"></div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 0
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 0: PyTorch and libtorch</h3>
+				<div class="container" style="grid-template-columns: 50% 50%;">
+					<div class="col">
+						<ul>
+							<li class="fragment">Most of the PyTorch functions have one-to-one correspondance with a libtorch
+								function.</li>
+							<li class="fragment">
+								For example, the following Python code
+								<pre class="python">
+                  <code data-trim data-noescape>
+                    import torch
+                    A = torch.full((3, 4, 2), -1.1)
+                  </code>
+                </pre>
+							</li>
+							<li class="fragment">
+								is equivalent to the following C++ code
+								<pre class="c++">
+                  <code data-trim data-noescape>
+                    <script type="text/template">
+                      #include <torch/torch.h>
+                      auto A = torch::full({3, 4, 2}, -1.1);
+                    </script>
+                  </code>
+                </pre>
+							</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul>
+							<li class="fragment">PyTorch is well-documented<br>
+								<a href="https://pytorch.org/docs/stable/index.html">
+									https://pytorch.org/docs/stable/index.html
+								</a>
+							</li>
+							<li class="fragment">Unfortunately, libtorch is largely undocumented:<br>
+								<a href="https://pytorch.org/cppdocs/">https://pytorch.org/cppdocs/</a><br>
+								Often times you will have to work with the PyTorch documentation counterpart.
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 1
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 1: Batch versus Base</h3>
+				<ul>
+					<li><span style="color: coral;">The one difference</span> between <code>torch::Tensor</code> and NEML2
+						tensors:
+						<pre>
+                <code class="python" style="font-size: 1.6em;">
+          (22, 5, 78, 1, 3, 6, 6, 3)
+                </code>
+              </pre>
+						<div style="text-align: center;">versus</div>
+						<pre>
+                <code class="python" style="font-size: 1.6em;">
+          (22, 5, 78, 1, 3; 6, 6, 3)
+                          ▲
+                </code>
+              </pre>
+					</li>
+					<li>
+						Tensor creation APIs
+						<ul>
+							<li>Batch shape</li>
+							<li>Base shape</li>
+							<li>Data type</li>
+							<li>Device type</li>
+							<li><code>requires_grad</code></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 2
+      ##############################################################################
+      -->
+			<section>
+				<section data-auto-animate="broadcasting">
+					<h3>Example 2: Broadcasting</h3>
+					<div class="container" style="grid-template-columns: 55% 45%;">
+						<div class="col">
+							<ul>
+								<li>Borrowing Numpy's definition of broadcasting:
+									<blockquote
+										style="font-size: 0.8em; line-height: 2em; margin-left: 0; padding: 1em; text-align: justify;">
+										The term broadcasting describes how NumPy treats <span style="color: coral;">arrays with
+											different shapes</span> during arithmetic operations. Subject to certain constraints, the smaller
+										array is “broadcast” across the larger array so that they have compatible shapes.
+									</blockquote>
+								</li>
+							</ul>
+						</div>
+						<div class="col fragment">
+							<ul>
+								<li>NEML2's broadcasting semantics is slightly <span style="color: coral;">different</span> from what's
+									used in Numpy and PyTorch: Two tensors are said to be broadcastable if
+								</li>
+							</ul>
+							<ol>
+								<li>They have the <span style="color: coral;">same base shape</span>, <strong>AND</strong></li>
+								<li>Iterating backward from the last batch dimension, one of the following is satisfied</li>
+								<ol>
+									<li>Both tensors have the <span style="color: coral;">same size</span> on that dimension;</li>
+									<li>One tensor has <span style="color: coral;">size 1</span> on that dimension;</li>
+									<li>That dimension <span style="color: coral;">does not exist</span> in one tensor.</li>
+								</ol>
+							</ol>
+							<ul>
+								<li class="fragment">The rules can be generalized to operations involving more than two tensors.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="broadcasting">
+					<h3>Example 2: Broadcasting</h3>
+					<pre class="arduino" style="line-height: 1.5em;">
+						<code data-noescape style="font-size: 1.2em;" data-line-numbers="1-4|1-7|1-11">
+									(2, 3, 1, 2; 5, 6)
+
+									(   3, 5, 2; 5, 6)
+									 │  │  │  │  │  │
+									 │  │  │  │  │  Base size: match
+									 │  │  │  │  Base size: match
+									 │  │  │  Batch size: match
+									 │  │  Batch size: one of them is 1
+									 │  Batch size: match
+									 Batch size: one of them does not exist
+
+						</code>
+					</pre>
+				</section>
+			</section>
+			<!--
+      ##############################################################################
+      Example 3
+			Example 4
+      ##############################################################################
+      -->
+			<section>
+				<h3>Examples 3 & 4: Tensor Indexing</h3>
+				<div class="container" style="grid-template-columns: 65% 35%;">
+					<div class="col">
+						<p>
+							If you are familiar with Python array indexing: <br><br>
+							NEML2 tensor indexing <span style="color: coral">works in pretty much the same way</span>,<br>
+							except that now indexing <span style="color: coral">distinguishes between batch and base
+								dimensions</span>.
+						</p>
+					</div>
+					<div class="col">
+						<p class="fragment">Example 3: Single-axis indexing</p>
+						<ul style="font-size: 0.4em;" class="fragment">
+							<li>Integer: <code>A[1]</code>, <code>B[-2]</code></li>
+							<li>Boolean: <code>A[[True, True, False]]</code></li>
+							<li>Slice: <code>A[i:j:k]</code></li>
+						</ul>
+						<p class="fragment">Example 4: Multi-axis indexing</p>
+						<ul style="font-size: 0.4em;" class="fragment">
+							<li>Mixed: <code>A[1, 2:-1:3, [True, False, True]]</code></li>
+							<li>Ellipsis: <code>A[2:5, ..., -3]</code></li>
+							<li>None: <code>A[None]</code>, <code>A[..., None]</code></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 5
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 5: Tensor View</h3>
+				<div class="container" style="grid-template-columns: 60% 40%;">
+					<div class="col" style="justify-content: center;"><img src="assets/speed.svg" style="height: 400px;"></div>
+					<div class="col">
+						<ul>
+							<li class="fragment"><span style="color: coral">Memory efficiency</span> is one of the most important
+								factors that determine the <span style="color: coral">optimal
+									batch size</span> (OBS).
+							</li>
+							<li class="fragment">Tensor views are created wherever possible.</li>
+							<li class="fragment">View avoids explicit data copy, thus allows us to do fast and memory efficient
+								reshaping, slicing and element-wise operations.</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 6
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 6: Primitive Tensor Types</h3>
+				<div class="container" style="grid-template-columns: 30% 70%;">
+					<div class="col" style="justify-content: center;">
+						<img src="assets/tensor_notation.png" style="height: 250px;">
+					</div>
+					<div class="col fragment">
+						<table>
+							<thead style="font-size: 0.5em;">
+								<tr>
+									<th>Type</th>
+									<th>Base shape</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody style="font-size: 0.4em;">
+								<tr>
+									<td>BatchTensor</td>
+									<td>Dynamic</td>
+									<td>Tensor with dynamic base shape</td>
+								</tr>
+								<tr>
+									<td>Scalar</td>
+									<td>()</td>
+									<td>Rank-0 tensor, i.e. scalar</td>
+								</tr>
+								<tr>
+									<td>Vec</td>
+									<td>(3)</td>
+									<td>Rank-1 tensor, i.e. vector</td>
+								</tr>
+								<tr>
+									<td class="nobottom">R2</td>
+									<td class="nobottom">(3, 3)</td>
+									<td class="nobottom">Rank-2 tensor</td>
+								</tr>
+								<tr>
+									<td class="nobottom">SR2</td>
+									<td class="nobottom">(6)</td>
+									<td class="nobottom">Symmetric rank-2 tensor</td>
+								</tr>
+								<tr>
+									<td>WR2</td>
+									<td>(3)</td>
+									<td>Skew-symmetric rank-2 tensor</td>
+								</tr>
+								<tr>
+									<td class="nobottom">R3</td>
+									<td class="nobottom">(3, 3, 3)</td>
+									<td class="nobottom">Rank-3 tensor</td>
+								</tr>
+								<tr>
+									<td>SFR3</td>
+									<td>(6, 3)</td>
+									<td>Rank-3 tensor with symmetry on base dimensions 0 and 1</td>
+								</tr>
+								<tr>
+									<td class="nobottom">R4</td>
+									<td class="nobottom">(3, 3, 3, 3)</td>
+									<td class="nobottom">Rank-4 tensor</td>
+								</tr>
+								<tr>
+									<td>SSR4</td>
+									<td>(6, 6)</td>
+									<td>Rank-4 tensor with minor symmetry</td>
+								</tr>
+								<tr>
+									<td class="nobottom">R5</td>
+									<td class="nobottom">(3, 3, 3, 3, 3)</td>
+									<td class="nobottom">Rank-5 tensor</td>
+								</tr>
+								<tr>
+									<td>SSFR5</td>
+									<td>(6, 6, 3)</td>
+									<td>Rank-5 tensor with minor symmetry on base dimensions 0 - 3</td>
+								</tr>
+								<tr>
+									<td class="nobottom">Rot</td>
+									<td class="nobottom">(3)</td>
+									<td class="nobottom">Rotation tensor stored in Rodrigues format</td>
+								</tr>
+								<tr>
+									<td class="nobottom">Quarternion</td>
+									<td class="nobottom">(4)</td>
+									<td class="nobottom">Quarternion</td>
+								</tr>
+								<tr>
+									<td>MillerIndex</td>
+									<td>(3)</td>
+									<td>Crystal direction or lattice plane represented as Miller indices</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 7
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 7: Labeled Axis</h3>
+				<div class="container" style="grid-template-columns: 65% 35%;">
+					<div class="col">
+						<p class="fragment">The primary difficulty in working with tensor slices is due to their <span
+								style="color: coral">lack of physical
+								meaning</span>.</p>
+						<p class="fragment">NEML2 provides a mechanism to assign <span style="color: coral">human-readable
+								labels</span>
+							to tensor indices.<br>
+							The canonical object for working with labels is <span
+								style="color: coral"><code>LabeledAxis</code></span>.
+						</p>
+						<p class="fragment">
+							Terminlogies
+						<ul class="fragment">
+							<li><span style="color: coral">Item</span>: A contiguous slice with an assigned label.</li>
+							<li><span style="color: coral">Variable</span>: An item of primitive tensor type, e.g., Scalar, Vec, R2,
+								etc.</li>
+							<li><span style="color: coral">Sub-axis</span>: An item of type LabeledAxis</li>
+						</ul>
+						</p>
+					</div>
+					<div class="col fragment" style="justify-content: center;">
+						<img src="assets/axis.png" style="height: 400px;">
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 8
+      ##############################################################################
+      -->
+			<section>
+				<section data-auto-animate="labeledtensor" data-auto-animate-unmatched="false">
+					<h3>Example 8: Labeled Tensors</h3>
+					<div class="container" style="grid-template-columns: 65% 35%;">
+						<div class="col">
+							<p class="fragment"><span style="color: coral"><code>LabeledTensor</code></span> is the base class for all
+								labeled tensors.</p>
+							<ul class="fragment">
+								<li>The base class is templated on the number of tensor axes <span style="color: coral">N</span>.</li>
+								<li>A labeled tensor consists of one <code>BatchTensor</code> and N <code>LabeledAxis</code>s.</li>
+								<li>3 specializations: <code>LabeledVector</code>, <code>LabeledMatrix</code>,
+									<code>LabeledTensor3D</code>
+								</li>
+							</ul>
+							<p class="fragment"><code>LabeledTensor</code>s are primarily used to pass information between models (IOU
+								the definition of
+								model).</p>
+							<ul class="fragment">
+								<li><span style="color: coral"><code>LabeledVector</code></span> can be used to store a model's <span
+										style="color: coral">input</span>
+									and
+									<span style="color: coral">output</span>.
+								</li>
+								<li><span style="color: coral"><code>LabeledMatrix</code></span> can be used to store <span
+										style="color: coral">first
+										derivatives</span>.
+								</li>
+								<li><span style="color: coral"><code>LabeledTensor3D</code></span> can be used to store <span
+										style="color: coral">second
+										derivatives</span>.</li>
+							</ul>
+						</div>
+						<div class="col fragment" style="justify-content: center;">
+							<img src="assets/labeledmatrix0.png" style="height: 400px;">
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="labeledtensor" data-auto-animate-unmatched="false">
+					<h3>Example 8: Labeled Tensors</h3>
+					<div class="container" style="grid-template-columns: 65% 35%;">
+						<div class="col">
+							<p><span style="color: coral"><code>LabeledTensor</code></span> is the base class for all
+								labeled tensors.</p>
+							<ul>
+								<li>The base class is templated on the number of tensor axes <span style="color: coral">N</span>.</li>
+								<li>A labeled tensor consists of one <code>BatchTensor</code> and N <code>LabeledAxis</code>s.</li>
+								<li>3 specializations: <code>LabeledVector</code>, <code>LabeledMatrix</code>,
+									<code>LabeledTensor3D</code>
+								</li>
+							</ul>
+							<p><code>LabeledTensor</code>s are primarily used to pass information between models (IOU
+								the definition of
+								model).</p>
+							<ul>
+								<li><span style="color: coral"><code>LabeledVector</code></span> can be used to store a model's <span
+										style="color: coral">input</span>
+									and
+									<span style="color: coral">output</span>.
+								</li>
+								<li><span style="color: coral"><code>LabeledMatrix</code></span> can be used to store <span
+										style="color: coral">first
+										derivatives</span>.
+								</li>
+								<li><span style="color: coral"><code>LabeledTensor3D</code></span> can be used to store <span
+										style="color: coral">second
+										derivatives</span>.</li>
+							</ul>
+						</div>
+						<div class="col" style="justify-content: center;">
+							<img src="assets/labeledmatrix1.png" style="height: 400px;">
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!--
+      ##############################################################################
+      Break
+      ##############################################################################
+      -->
+			<section>
+				<h3><img src="assets/break.png" style="height: 80px; display: inline-block; margin: auto 20px auto auto">Break
+				</h3>
+				<div class="container" style="grid-template-columns: 20% 60% 20%;">
+					<div class="col"></div>
+					<div class="col">
+						<p>This concludes the introduction of the <span style="color: coral">NEML2 tensor library</span>.</p>
+						<p>Coming up next...
+						<ul>
+							<li>Model definition, (de)serialization, and composition</li>
+							<li>Solving implicit models</li>
+							<li>Model parametrization and parameter derivatives</li>
+							<li>Extending an existing model</li>
+							<li>Using NEML2 as an external library</li>
+						</ul>
+						</p>
+					</div>
+					<div class="col"></div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Flying ball
+      ##############################################################################
+      -->
+			<section>
+				<h3>The Flying Ball</h3>
+				<div class="container" style="grid-template-columns: 15% 70% 15%;">
+					<div class="col"></div>
+					<div class="col">
+						<p>From example 9 to example 17, we will be throwing balls on the playground:</p>
+						\[
+						\begin{aligned}
+						\dfrac{\text{ d}x}{\text{ d}t} &amp; = v \\
+						\dfrac{\text{ d}v}{\text{ d}t} &amp; = g-\mu v, \quad g
+						= [0, -9.81, 0]^T
+						\end{aligned}
+						\]
+						<p>with initial conditions</p>
+						\[
+						\begin{aligned}
+						x(0) &amp; = x_0 \\
+						v(0) &amp; = v_0
+						\end{aligned}
+						\]
+					</div>
+					<div class="col"></div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 9
+      ##############################################################################
+      -->
+			<section>
+				<section data-auto-animate="model">
+					<h3>Example 9: Model definition</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p>In mathematics, a model can be written as</p>
+							\[
+							\begin{align}
+							\mathrm{y} = f(\mathrm{x}; \mathrm{p})
+							\end{align}
+							\]
+							<p>In the (time-discretized) flying ball example,</p>
+							\[
+							\begin{align}
+							\mathrm{x} &amp; = \{x_n, v_n, t, t_n\} \\
+							\mathrm{y} &amp; = \{x, v\} \\
+							\mathrm{p} &amp; = \{\mu\}
+							\end{align}
+							\]
+						</div>
+						<div class="col fragment">
+							<p>In NEML2, all models derive from <span style="color: coral"><code>Model</code></span>.</p>
+							<table>
+								<thead style="font-size: 0.5em;">
+									<tr>
+										<th>Symbol</th>
+										<th>NEML2 terminology</th>
+										<th>Method</th>
+									</tr>
+								</thead>
+								<tbody style="font-size: 0.4em;">
+									<tr>
+										<td style="text-align: center; font-size: 1.6em;">$\mathrm{x}$</td>
+										<td>input variable</td>
+										<td><code>Model::declare_input_variable</code></td>
+									</tr>
+									<tr>
+										<td style="text-align: center; font-size: 1.6em;">$\mathrm{y}$</td>
+										<td>output variable</td>
+										<td><code>Model::declare_output_variable</code></td>
+									</tr>
+									<tr>
+										<td style="text-align: center; font-size: 1.6em;">$\mathrm{p}$</td>
+										<td>parameter</td>
+										<td><code>Model::declare_parameter</code></td>
+									</tr>
+									<tr>
+										<td style="text-align: center; font-size: 1.6em;">$f$</td>
+										<td>forward operator</td>
+										<td><code>Model::set_value</code></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="model">
+					<h3>Example 9: Model definition</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p>In mathematics, a model can be written as</p>
+							\[
+							\begin{align}
+							\mathrm{y} = f(\mathrm{x}; \mathrm{p})
+							\end{align}
+							\]
+							<p>In the (time-discretized) flying ball example,</p>
+							\[
+							\begin{align}
+							\mathrm{x} &amp; = \{x_n, v_n, t, t_n\} \\
+							\mathrm{y} &amp; = \{x, v\} \\
+							\mathrm{p} &amp; = \{\mu\}
+							\end{align}
+							\]
+						</div>
+						<div class="col">
+							<p>All models have an <span style="color: coral">input axis</span> and an <span
+									style="color: coral">output axis</span>, both of type <code>LabeledAxis</code>.</p>
+							<p>The following sub-axis naming conventions are used:</p>
+							<table>
+								<thead style="font-size: 0.5em;">
+									<tr>
+										<th>Sub-axis name</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody style="font-size: 0.4em;">
+									<tr>
+										<td><code>state</code></td>
+										<td>Variables that describe the <span style="color: coral">current (or trial) state</span> of the
+											system.</td>
+									</tr>
+									<tr>
+										<td><code>old_state</code></td>
+										<td>Variables that describe the <span style="color: coral">previous state</span> of the system.</td>
+									</tr>
+									<tr>
+										<td><code>forces</code></td>
+										<td><span style="color: coral">External</span> variables that <span
+												style="color: coral">drives</span> the motion/evolution of the system</td>
+									</tr>
+									<tr>
+										<td><code>old_forces</code></td>
+										<td><span style="color: coral">External</span> driving variables from the <span
+												style="color: coral">previous</span> time step</td>
+									</tr>
+									<tr>
+										<td><code>residual</code></td>
+										<td>Residual of the variables that define an <span style="color: coral">implicit system</span>.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 10
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 10: Registry, Factory, and Deserialization</h3>
+				<div class="container" style="grid-template-columns: 50% 50%;">
+					<div class="col">
+						<p class="fragment">NEML2 uses the standard registry-factory pattern for <span style="color: coral">object
+								self-registration</span> and
+							<span style="color: coral">run-time manufacturing</span>.
+						</p>
+						<p class="fragment">All manufacturable objects can be <span style="color: coral">deserialized</span> from an
+							input file. NEML2 input files
+							have extension
+							<span style="color: coral"><code>.i</code></span> and use the <span style="color: coral">HIT</span>
+							hierarchical text language.
+						</p>
+						<p class="fragment">To create a <span style="color: coral">custom</span> manufacturiable object, simply
+						</p>
+						<ul class="fragment">
+							<li>inherit from <span style="color: coral"><code>NEML2Object</code></span>, and</li>
+							<li>define <span style="color: coral"><code>expected_options()</code></span>.</li>
+						</ul>
+					</div>
+					<div class="col fragment">
+						<p>Input file top-level entry-points:</p>
+						<table>
+							<thead style="font-size: 0.5em;">
+								<tr>
+									<th>Section name</th>
+									<th>Base class</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody style="font-size: 0.4em;">
+								<tr>
+									<td><code>[Models]</code></td>
+									<td><code>Model</code></td>
+									<td>Define input, output, parameters, and the forward operator of a model.</td>
+								</tr>
+								<tr>
+									<td><code>[Solvers]</code></td>
+									<td><code>Solver</code></td>
+									<td>Solve an (implicit) system of equations.</td>
+								</tr>
+								<tr>
+									<td><code>[Drivers]</code></td>
+									<td><code>Driver</code></td>
+									<td>Drive a (autonomous) system with given initial conditions and external forces.</td>
+								</tr>
+								<tr>
+									<td><code>[Tensors]</code></td>
+									<td><code>torch::Tensor</code></td>
+									<td>Wrappers for specifying tensors from the input file.</td>
+								</tr>
+								<tr>
+									<td><code>[Data]</code></td>
+									<td><code>Data</code></td>
+									<td>Store common data related to the system.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 11
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 11: Model Evaluation</h3>
+				<h4><img src="assets/exam.png" style="height: 80px; display: inline-block; margin: auto 10px auto auto;">Time
+					for an exam :&#41</h4>
+				<p style="text-align: center;">Question: There are 3 flying balls $A$, $B$, and $C$. Their velocities are
+					\[
+					\begin{align}
+					v^A &amp; = [10.0, 3.0, 0]^T \\
+					v^B &amp; = [12.5, 3.5, 0]^T \\
+					v^C &amp; = [15.0, 4.0, 0]^T
+					\end{align}
+					\]
+					Find their accelerations assuming resistivity $\mu = 0.01$.
+				</p>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 12
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 12: Model Derivatives and Automatic Differentiation</h3>
+				<div class="container" style="grid-template-columns: 65% 35%;">
+					<div class="col">
+						<ul>
+							<li class="fragment">Many <span style="color: coral">"stiff"</span> systems could benefit from <span
+									style="color: coral">implicit</span> solution
+								algorithms.</li>
+							<li class="fragment">Providing accurate model derivatives (i.e. the Jacobian)</li>
+							<ul class="fragment">
+								<li style="font-size: 1.5em;">could accelerate the implicit solution process and</li>
+								<li style="font-size: 1.5em;">is mandatory to apply the <span style="color: coral">implicit function
+										theorem</span>.</li>
+							</ul>
+							<li class="fragment">PyTorch/libtorch offers <span style="color: coral">backward-mode</span> (and
+								experimental forward-mode) <span style="color: coral">automatic
+									differentiation</span> (AD), which is useful in <span style="color: coral">rapid prototyping</span>.
+							</li>
+						</ul>
+					</div>
+					<div class="col fragment">
+						<pre class="python" style="line-height: 1em;">
+							<code data-trim data-noescape data-line-numbers="6-7">
+								[Models]
+									[ball]
+										type = FlyingBall
+										velocity = 'state/v'
+										acceleration = 'state/a'
+										use_AD_first_derivative = true
+										use_AD_second_derivative = true
+									[]
+								[]
+							</code>
+						</pre>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 13
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 13: Model Composition, Dependency Resolution, and Chain Rule</h3>
+				<div class="container" style="grid-template-columns: 50% 50%;">
+					<div class="col">
+						<p>So far we have implemented</p>
+						\[
+						\begin{aligned}
+						a(v) &amp; = g - 0.01 v, \quad g
+						= [0, -9.81, 0]^T
+						\end{aligned}
+						\]
+						<p>We need 3 more equations to close the system:</p>
+						\[
+						\begin{aligned}
+						r_x(x, v, x_n, t, t_n) &amp; = x - x_n - v \cdot (t - t_n) \\
+						r_v(v, v_n, t, t_n) &amp; = v - v_n - a \cdot (t - t_n) \\
+						\{x, v\} &amp; = \text{root}\left([r_x, r_v]^T\right)
+						\end{aligned}
+						\]
+					</div>
+					<div class="col">
+						<p class="fragment">Relax -- these are all standard models that are offered by default.</p>
+						<ul>
+							<li class="fragment">The first 2 equations are <code>VecBackwardEulerTimeIntegration</code>.</li>
+							<li class="fragment">The third equation is <code>ImplicitUpdate</code>.</li>
+							<li class="fragment">But how do we "stitch" them together?</li>
+							<ul class="fragment">
+								<li>Automatic dependency registration</li>
+								<li>Automatic input/output identification</li>
+								<li>Automatic dependency resolution</li>
+								<li>Automatic chain rule</li>
+							</ul>
+						</ul>
+						<p class="fragment">See the <a
+								href="https://reverendbedford.github.io/neml2/impl.html#modelcomposition">documentation page</a>
+							for more details.</p>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 14
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 14: Solving an Implicit Model</h3>
+				<h4><img src="assets/exam.png" style="height: 80px; display: inline-block; margin: auto 10px auto auto;">Time
+					for another exam :&#40</h4>
+				<p style="text-align: center;">Question: Three balls $A$, $B$, and $C$ are launched with initial velocities
+					\[
+					\begin{align}
+					v^A_n &amp; = [10.0, 3.0, 0]^T \\
+					v^B_n &amp; = [12.5, 3.5, 0]^T \\
+					v^C_n &amp; = [15.0, 4.0, 0]^T
+					\end{align}
+					\]
+					Find their positions and velocities 1 second after the launch assuming resistivity $\mu = 0.01$.
+				</p>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 15
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 15: Driver</h3>
+				<div class="container" style="grid-template-columns: 65% 35%;">
+					<div class="col">
+						<p>Well, we certainly don't want to write and compile some code every time we throw the ball <span
+								style="color: coral">with a different velocity</span>.</p>
+						<p>That's the exact job of a <span style="color: coral"><code>Driver</code></span>.<br>
+							Here, we will implement our own <span style="color: coral"><code>BallLauncher</code></span> by deriving
+							from the <span style="color: coral"><code>TransientDriver</code></span>.
+						</p>
+						<p class="fragment" data-fragment-index="1">The results can optionally be saved using zip-based pickling
+							into a PyTorch archive.
+						</p>
+					</div>
+					<div class="col fragment" data-fragment-index="3">
+						<img src="assets/trajectories.svg" style="height: 300px;">
+					</div>
+				</div>
+				<ul class="fragment" data-fragment-index="2">
+					<li>The archive can be <span style="color: coral">loaded inside Python</span> using <span
+							style="color: coral"><code>torch.jit.load</code></span>.</li>
+					<li>All variables are saved as <span style="color: coral">buffers</span> (without backward propagation
+						information).</li>
+					<li>The archive has two attributes: <span style="color: coral">input</span> and <span
+							style="color: coral">output</span>. Each attribute is a dictionary with <span
+							style="color: coral">variable names</span> as
+						dictionary keys and <span style="color: coral">variable values</span> as dictionary values.</li>
+				</ul>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 16
+			Example 17
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 16 & 17: Model Parametrization</h3>
+				<div class="container" style="grid-template-columns: 50% 50%;">
+					<div class="col">
+						<p>Recall the problem definition</p>
+						\[
+						\begin{align}
+						\mathrm{y} = f(\mathrm{x}; \mathrm{p})
+						\end{align}
+						\]
+						<p>In the (time-discretized) flying ball example,</p>
+						\[
+						\begin{align}
+						\mathrm{x} &amp; = \{x_n, v_n, t, t_n\} \\
+						\mathrm{y} &amp; = \{x, v\} \\
+						\mathrm{p} &amp; = \{\mu\}
+						\end{align}
+						\]
+						<p>We have faithly implemented everything except $\mu$ -- it was hard-coded to be 0.01 of type
+							<code>Real</code>.
+						</p>
+					</div>
+					<div class="col">
+						<p class="fragment">That's not the ideal choice because</p>
+						<ul>
+							<li class="fragment">The code has to be <span style="color: coral">recompiled</span> every time the
+								resistivity changes.
+							</li>
+							<li class="fragment">If the input and output can be <span style="color: coral">batched</span>, there is no
+								reason why $\mu$ cannot be.</li>
+							<li class="fragment">If the model is sent to a <span style="color: coral">different device</span>, the
+								parameters should be sent to same device as well.</li>
+							<li class="fragment">In many applications, the <span style="color: coral">derivatives of the model
+									response w.r.t. the parameters</span> (or the action of the Jacobian on the parameters) are required.
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 18
+      ##############################################################################
+      -->
+			<section>
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 33% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								$\{\sigma, \bar{\varepsilon}^p, K^p \} = \text{root}\left( r_\sigma, r_{\bar{\varepsilon}^p}, r_{K^p}
+								\right)$<br>
+								$r_\sigma = \sigma - \sigma_n - \dot{\sigma} \cdot (t - t_n)$<br>
+								$r_{\bar{\varepsilon}^p} = \bar{\varepsilon}^p - \bar{\varepsilon}^p_n - \dot{\bar{\varepsilon}^p}
+								\cdot (t - t_n)$<br>
+								$r_{K^p} = K^p - K^p_n - \dot{K^p} \cdot (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								$\dot{\sigma} = \mathbb{C} : \dot{\varepsilon^e}$<br>
+								$\dot{\varepsilon^e} = \dot{\varepsilon} - \dot{\varepsilon^p}$<br>
+								$\dot{\varepsilon} = (\varepsilon - \varepsilon_n) / (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								$\dot{\sigma} = \mathbb{C} : \dot{\varepsilon^e}$<br>
+								$\dot{\varepsilon^e} = \dot{\varepsilon} - \dot{\varepsilon^p}$<br>
+								$\dot{\varepsilon} = (\varepsilon - \varepsilon_n) / (t - t_n)$
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 24% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								$\dot{\gamma} = \left( \dfrac{\lvert f^p \rvert}{\eta} \right)^n \text{heav}\left( f^p \right)$<br>
+								$f^p = \bar{\sigma} - \sigma_y - h$<br>
+								$\bar{\sigma} = \dfrac{3}{2} \lVert \text{dev}(M-X) \rVert$<br>
+								$M = \sigma$<br>
+								$X = H_k K^p$<br>
+								$h = H_i \bar{\varepsilon}^p$
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 23% 20%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>PerzynaPlasticFlowRate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>YieldFunction</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2Invariant</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>MandelStress</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearKinematicHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicHardening</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								$N_M = \partial f^p / \partial M$<br>
+								$N_X = \partial f^p / \partial X$<br>
+								$N_h = \partial f^p / \partial h$<br>
+								$\dot{\varepsilon}^p = \dot{\gamma} N_M$<br>
+								$\dot{\bar{\varepsilon}}^p = -\dot{\gamma} N_h$<br>
+								$\dot{K}^p = -\dot{\gamma} N_X$
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="solid mechanics" data-auto-animate-unmatched="false">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<div class="container" style="grid-template-columns: 28% 23% 23% 23%;">
+						<div class="col">
+							<p>Solving the implicit system<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ImplicitUpdate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ScalarBackwarEulerTimeIntegration</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2BackwarEulerTimeIntegration</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Elasticity<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicElasticity</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>ElasticStrain</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2ForceRate</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Yield function<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>PerzynaPlasticFlowRate</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>YieldFunction</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>SR2Invariant</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>MandelStress</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearKinematicHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>LinearIsotropicHardening</code></span>
+							</p>
+						</div>
+						<div class="col">
+							<p>Plastic flow<br><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>Normality</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>AssociativePlasticFlow</code></span><br>
+								<span
+									style="color: coral; font-size: 0.7em;"><code>AssociativeIsotropicPlasticHardening</code></span><br>
+								<span style="color: coral; font-size: 0.7em;"><code>AssociativeKinematicPlasticHardening</code></span>
+							</p>
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate="solid mechanics">
+					<h3>Example 18: Setting up a Solid Mechanics Model</h3>
+					<p style="text-align: center;">Use the <span style="color: coral">radial return</span> algorithm to integrate
+						a creep model with <span style="color: coral">custom
+							isotropic hardening</span>:
+						\[
+						\begin{align}
+						h = a \bar{\varepsilon}^p \exp \left( -\dfrac{\bar{\varepsilon}^p}{b} \right)
+						\end{align}
+						\]
+					</p>
+					<img class="fragment" src="assets/stress_strain_curves.svg" style="height: 300px;">
+				</section>
+			</section>
+
+			<!--
+      ##############################################################################
+      Example 19
+      ##############################################################################
+      -->
+			<section>
+				<h3>Example 19: Multiphysics Coupling</h3>
+				<p>Multiphysics coupling is sort of a <span style="color: coral">"false premise"</span> because of the way NEML2
+					handles model composition.</p>
+				<p>Recall that NEML2 deals with model composition with</p>
+				<ul>
+					<li><span style="color: coral">Automatic</span> dependency registration</li>
+					<li><span style="color: coral">Automatic</span> input/output identification</li>
+					<li><span style="color: coral">Automatic</span> dependency resolution</li>
+					<li><span style="color: coral">Automatic</span> chain rule</li>
+				</ul>
+				<p class="fragment">The additional (Multiphysics) coupling with another variable will be automatically added by
+					the "4
+					automatics", with one exception...</p>
+				<p class="fragment">What if the <span style="color: coral">model parameter</span> is a function of other
+					variables?</p>
+			</section>
+
+			<!--
+      ##############################################################################
+      Conclusion
+      ##############################################################################
+      -->
+			<section>
+				<h3>In this workshop, we have covered</h3>
+				<div class="container" style="grid-template-columns: 20% 60% 20%;">
+					<div class="col"></div>
+					<div class="col">
+						<table>
+							<thead style="font-size: 0.7em;">
+								<tr>
+									<th>Examples</th>
+									<th>Topic</th>
+								</tr>
+							</thead>
+							<tbody style="font-size: 0.5em;">
+								<tr>
+									<td>1-5</td>
+									<td><span style="color: #e7ad52;">Tensor creation, broadcasting, indexing, and viewing</span></td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td><span style="color: #e7ad52;">Primitive tensor types</span></td>
+								</tr>
+								<tr>
+									<td>7-8</td>
+									<td><span style="color: #e7ad52;">Tensor labeling</span></td>
+								</tr>
+								<tr>
+									<td>9-10</td>
+									<td><span style="color: #e7ad52;">Model definition, registration, and deserialization</span></td>
+								</tr>
+								<tr>
+									<td>11-12</td>
+									<td><span style="color: #e7ad52;">Model evaluation and automatic differentiation</span></td>
+								</tr>
+								<tr>
+									<td>13</td>
+									<td><span style="color: #e7ad52;">Model composition, dependency resolution, and chain rule</span></td>
+								</tr>
+								<tr>
+									<td>14-15</td>
+									<td><span style="color: #e7ad52;">Solving an implicit model</span></td>
+								</tr>
+								<tr>
+									<td>16-17</td>
+									<td><span style="color: #e7ad52;">Model parametrization</span></td>
+								</tr>
+								<tr>
+									<td>18</td>
+									<td><span style="color: #e7ad52;">Setting up a solid mechanics model</span></td>
+								</tr>
+								<tr>
+									<td>19</td>
+									<td><span style="color: #e7ad52;">Multiphysics coupling</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col"></div>
+				</div>
+			</section>
+
+			<!--
+      ##############################################################################
+      Thank you
+      ##############################################################################
+      -->
+			<section data-background-image="assets/ANL.jpeg" data-background-opacity="0.75">
+				<div style="width: 50%;
+					margin-left: 0;
+					margin-bottom: 0;
+					min-height: 200px;
+					vertical-align: middle;
+					display: table;
+					background-color: rgba(66,135,245,0.8);
+					color: white;
+					padding: 20px;
+					font-size: 32px;
+					text-align: left;">
+					<div style="display: table-cell; vertical-align: middle;">
+						<div>
+							<h2>Thank you!</h2>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			width: 1280,
+			height: 720,
+			transitionSpeed: "default",
+			pdfSeparateFragments: false,
+
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+		});
+	</script>
+</body>
+
+</html>
