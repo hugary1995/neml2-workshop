@@ -172,8 +172,8 @@ cd neml2-workshop
 
 conda create -n neml2
 conda activate neml2
-conda install install -c "nvidia/label/cuda-12.1.1" \
-  cuda-toolkit cudnn python=3.11 cmake clang-format
+conda install -c "nvidia/label/cuda-12.1.1" \
+  cuda-toolkit python=3.11 cmake clang-format
 
 pip install -r requirements.txt
 pip install torch
@@ -666,7 +666,7 @@ make -j N
 								<tr>
 									<td class="nobottom">Rot</td>
 									<td class="nobottom">(3)</td>
-									<td class="nobottom">Rotation tensor stored in Rodriguez format</td>
+									<td class="nobottom">Rotation tensor stored in Rodrigues format</td>
 								</tr>
 								<tr>
 									<td class="nobottom">Quarternion</td>
@@ -936,7 +936,7 @@ make -j N
 						</div>
 						<div class="col">
 							<p>All models have an <span style="color: coral">input axis</span> and an <span
-									style="color: coral">output axis</span>, both of type <code>LabedAxis</code>.</p>
+									style="color: coral">output axis</span>, both of type <code>LabeledAxis</code>.</p>
 							<p>The following sub-axis naming conventions are used:</p>
 							<table>
 								<thead style="font-size: 0.5em;">
