@@ -5,10 +5,16 @@ import shutil
 import subprocess
 
 ex_dir = Path("examples")
-out_dir = Path("examples-pdf")
+out_dir = Path("examples-ps")
 language = {".h": "cpp", ".cxx": "cpp", ".i": "python"}
 
+
 if __name__ == "__main__":
+    if not shutil.which("enscript"):
+        raise Exception(
+            "'enscript' will be used to convert source code to PostScript, but it cannot be found in PATH."
+        )
+
     if out_dir.exists():
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -20,10 +26,12 @@ if __name__ == "__main__":
             continue
 
         ofile = out_dir / file.relative_to(ex_dir)
+
+        # source code to PS
         args = [
             "enscript",
             "-o",
-            str(ofile) + ".pdf",
+            str(ofile) + ".ps",
             "-E{}".format(language[file.suffix]),
             "--color",
             str(file),
